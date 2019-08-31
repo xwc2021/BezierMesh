@@ -5,9 +5,19 @@ namespace Mytool {
     [CustomEditor(typeof(BezierData))]
     public class DrawBezier : Editor
     {
+        public override void OnInspectorGUI()
+        {
+            DrawDefaultInspector();
+            var be = target as BezierData;
+            if (GUILayout.Button("Add"))
+            {
+                be.addLineSegment();
+                SceneView.RepaintAll();
+            }
+        }
         private void OnSceneViewGUI(SceneView sv)
         {
-            BezierData be = target as BezierData;
+            var be = target as BezierData;
 
             Tools.hidden = be.isEditMode;
             if (be.isEditMode)
