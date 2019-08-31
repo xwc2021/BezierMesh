@@ -8,6 +8,41 @@ namespace Mytool
     {
         public List<Vector3> cnPoints;
         public bool isEditMode = false;
+        public GameObject prefab;
+        public Transform place_holder;
+
+        public void addMesh()
+        {
+            // 清空子元素(如果之前生成過的話)
+            var child_count = place_holder.childCount;
+            for (var i = 0; i < child_count; ++i)
+                DestroyImmediate(place_holder.GetChild(0).gameObject);
+
+            // 生成
+            var bezier_count = cnPoints.Count / 3 - 1;
+            var start_index = 1;
+            for (var i = 0; i < bezier_count; ++i)
+            {
+                Vector3 P0 = cnPoints[start_index];
+                Vector3 P1 = cnPoints[start_index + 1];
+                Vector3 P2 = cnPoints[start_index + 2];
+                Vector3 P3 = cnPoints[start_index + 3];
+
+                var obj = GameObject.Instantiate<GameObject>(prefab, transform.position, transform.rotation, place_holder);
+                var mesh_render = obj.GetComponent<MeshRenderer>();
+                var materail = mesh_render.material;
+
+                var helpV = BezierCurve.getBestHelpV(ref P0, ref P1, ref P2, ref P3);
+
+                materail.SetVector("_P0", P0);
+                materail.SetVector("_P1", P1);
+                materail.SetVector("_P2", P2);
+                materail.SetVector("_P3", P3);
+                materail.SetVector("_helpV", helpV);
+
+                start_index += 3;
+            }
+        }
 
         public void addLineSegment()
         {
@@ -17,10 +52,10 @@ namespace Mytool
             }
             else
             {
-                var P0 = cnPoints[cnPoints.Count-3]+new Vector3(5,0,0);
-                var P1 = cnPoints[cnPoints.Count-2] + new Vector3(5, 0, 0);
-                var P2 = cnPoints[cnPoints.Count-1] + new Vector3(5, 0, 0);
-                cnPoints.AddRange(new Vector3[3] { P0,P1,P2});
+                var P0 = cnPoints[cnPoints.Count - 3] + new Vector3(5, 0, 0);
+                var P1 = cnPoints[cnPoints.Count - 2] + new Vector3(5, 0, 0);
+                var P2 = cnPoints[cnPoints.Count - 1] + new Vector3(5, 0, 0);
+                cnPoints.AddRange(new Vector3[3] { P0, P1, P2 });
             }
         }
 

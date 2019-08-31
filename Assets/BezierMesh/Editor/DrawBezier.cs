@@ -9,9 +9,15 @@ namespace Mytool {
         {
             DrawDefaultInspector();
             var be = target as BezierData;
-            if (GUILayout.Button("Add"))
+            if (GUILayout.Button("Add Line Segment"))
             {
                 be.addLineSegment();
+                SceneView.RepaintAll();
+            }
+
+            if (GUILayout.Button("create mesh"))
+            {
+                be.addMesh();
                 SceneView.RepaintAll();
             }
         }
