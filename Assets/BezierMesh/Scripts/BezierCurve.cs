@@ -59,32 +59,52 @@ public class BezierCurve : MonoBehaviour
         }
     }
 
-    // 使用3軸向量裡，和refVector夾角最大的那個，當作helpVector
+    Vector3 getOrthogonalVector(ref Vector3 v)
+    {
+        var v_orthogonal = Vector3.Cross(v, Vector3.up);
+        if (v_orthogonal.magnitude > float.Epsilon)
+            return v_orthogonal.normalized;
+
+        v_orthogonal = Vector3.Cross(v, Vector3.right);
+        if (v_orthogonal.magnitude > float.Epsilon)
+            return v_orthogonal.normalized;
+
+        v_orthogonal = Vector3.Cross(v, Vector3.forward);
+        return v_orthogonal.normalized;
+    }
+
     Vector3 getBestHelpV(ref Vector3 p0, ref Vector3 p1, ref Vector3 p2, ref Vector3 p3)
     {
-        var refPoint = (p0+p1) * 0.5f;
+        var center0 = (p0 + p1) * 0.5f;
+        var center1 = (p2 + p3) * 0.5f;
 
-        // refVector 用來找出最合適的helpV
-        var refVector = (p2 + p3) * 0.5f - refPoint;
-        var refVectorN = refVector.normalized;
+        var linkV = center1 - center0;
+
+        var v0 = p1 - p0;
+        var v0_orthogonal = Vector3.Cross(linkV, v0).normalized;
+
+        var v1 = p2 - p3;
+        var v1_orthogonal = Vector3.Cross(linkV, v1).normalized;
+
+        //2個othogonal的中間值
+        var helpV = 0.5f * (v0_orthogonal + v1_orthogonal);
+
+        // 當p0==p1 而且 p2==p3
+        //找出垂直此線段的向量
+        if (helpV.magnitude < float.Epsilon)
+            helpV = getOrthogonalVector(ref linkV);
 
         Gizmos.color = Color.black;
-        Gizmos.DrawLine(refPoint, refPoint + refVector);
+        Gizmos.DrawLine(center0, center0 + linkV);
 
-        // 使用夾角最大的
-        var now_dot = Mathf.Abs(Vector3.Dot(refVectorN, Vector3.up));
-        var helpV = Vector3.up;
+        Gizmos.color = Color.white;
+        Gizmos.DrawLine(center0, center0 + helpV);
 
-        var right_dot = Mathf.Abs(Vector3.Dot(refVectorN, Vector3.right));
-        if (right_dot < now_dot)
-        {
-            now_dot = right_dot;
-            helpV = Vector3.right;
-        }
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(center0, center0 + v0_orthogonal);
 
-        var forward_dot = Mathf.Abs(Vector3.Dot(refVectorN, Vector3.forward));
-        if (forward_dot < now_dot)
-            helpV = Vector3.forward;
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(center1, center1 + v1_orthogonal);
 
         return helpV;
     }
