@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System;
 
 public class BezierCurve : MonoBehaviour
 {
@@ -31,7 +32,7 @@ public class BezierCurve : MonoBehaviour
         var p = new Vector3[p_count];
         for (var i = 0; i < p_count; ++i)
             p[i] = bezier((float)i / p_count, ref cp_world[0], ref cp_world[1], ref cp_world[2], ref cp_world[3]);
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.white;
         for (var i = 0; i < p_count - 1; ++i)
             Gizmos.DrawLine(p[i], p[i + 1]);
 
@@ -40,8 +41,7 @@ public class BezierCurve : MonoBehaviour
         for (var i = 0; i < tangent_count; ++i)
             p[i] = bezier((float)i / tangent_count, ref cp_world[0], ref cp_world[1], ref cp_world[2], ref cp_world[3]);
 
-        var helpV = Vector3.up;
-        var helpV2 = Vector3.right;
+        var helpV = getBestHelpV(ref cp_world[0], ref cp_world[1], ref cp_world[2], ref cp_world[3]);
         for (var i = 0; i < tangent_count - 1; ++i)
         {
             Gizmos.color = Color.green;
@@ -51,16 +51,42 @@ public class BezierCurve : MonoBehaviour
 
             Gizmos.color = Color.blue;
             var Z = Vector3.Cross(helpV, Y).normalized;
-            if(Z==Vector3.zero)
-                Z = Vector3.Cross(helpV2, Y).normalized;
-            Gizmos.DrawLine(p[i], p[i] +Z);
+            Gizmos.DrawLine(p[i], p[i] + Z);
 
             Gizmos.color = Color.red;
             var X = Vector3.Cross(Y, Z);
             Gizmos.DrawLine(p[i], p[i] + X);
         }
+    }
 
+    // 使用3軸向量裡，和refVector夾角最大的那個，當作helpVector
+    Vector3 getBestHelpV(ref Vector3 p0, ref Vector3 p1, ref Vector3 p2, ref Vector3 p3)
+    {
+        var refPoint = (p0+p1) * 0.5f;
 
+        // refVector 用來找出最合適的helpV
+        var refVector = (p2 + p3) * 0.5f - refPoint;
+        var refVectorN = refVector.normalized;
+
+        Gizmos.color = Color.black;
+        Gizmos.DrawLine(refPoint, refPoint + refVector);
+
+        // 使用夾角最大的
+        var now_dot = Mathf.Abs(Vector3.Dot(refVectorN, Vector3.up));
+        var helpV = Vector3.up;
+
+        var right_dot = Mathf.Abs(Vector3.Dot(refVectorN, Vector3.right));
+        if (right_dot < now_dot)
+        {
+            now_dot = right_dot;
+            helpV = Vector3.right;
+        }
+
+        var forward_dot = Mathf.Abs(Vector3.Dot(refVectorN, Vector3.forward));
+        if (forward_dot < now_dot)
+            helpV = Vector3.forward;
+
+        return helpV;
     }
 
     Vector3 bezier(float t, ref Vector3 P0, ref Vector3 P1, ref Vector3 P2, ref Vector3 P3)
