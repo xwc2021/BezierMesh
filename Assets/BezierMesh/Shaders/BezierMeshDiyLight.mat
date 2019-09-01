@@ -22,8 +22,8 @@ Material:
     m_TexEnvs: []
     m_Floats:
     - _height: 4
-    - _xScale: 0.5
-    - _yScale: 0.5
+    - _xScale: 0.25
+    - _yScale: 0.25
     m_Colors:
     - _Color: {r: 0, g: 0.6603774, b: 0.006863396, a: 0}
     - _P0: {r: 0, g: 0, b: 0, a: 0}
