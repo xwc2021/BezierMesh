@@ -23,7 +23,7 @@ Material:
     m_Floats:
     - _height: 4
     - _xScale: 0.5
-    - _yScale: 0.25
+    - _yScale: 0.5
     m_Colors:
     - _Color: {r: 0.043832853, g: 0.7169812, b: 0, a: 0}
     - _P0: {r: 0, g: 0, b: 0, a: 0}

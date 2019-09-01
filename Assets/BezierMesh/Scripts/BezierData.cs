@@ -11,6 +11,12 @@ namespace Mytool
         public GameObject prefab;
         public Transform place_holder;
 
+        public static void updateAllBezierMesh() {
+            var objs =FindObjectsOfType<BezierData>();
+            foreach (var obj in objs)
+                obj.addMesh();
+        }
+
         public void addMesh()
         {
             // 清空子元素(如果之前生成過的話)
@@ -29,22 +35,27 @@ namespace Mytool
                 Vector3 P1 =cnPoints[start_index + 1];
                 Vector3 P2 =cnPoints[start_index + 2];
                 Vector3 P3 =cnPoints[start_index + 3];
-
-                var obj = GameObject.Instantiate<GameObject>(prefab, transform.position, transform.rotation, place_holder);
-                var mesh_render = obj.GetComponent<MeshRenderer>();
-                var materail = mesh_render.material;
-
                 var helpV = BezierCurve.getBestHelpV(ref P0, ref P1, ref P2, ref P3);
 
-                materail.SetVector("_P0", P0);
-                materail.SetVector("_P1", P1);
-                materail.SetVector("_P2", P2);
-                materail.SetVector("_P3", P3);
-                materail.SetVector("_helpV", helpV);
-                materail.SetVector("_lightDir", light_dir_local);
+                var obj = GameObject.Instantiate<GameObject>(prefab, transform.position, transform.rotation, place_holder);
+                
+                var propertyBlock = new MaterialPropertyBlock();
+                propertyBlock.SetVector("_P0", P0);
+                propertyBlock.SetVector("_P1", P1);
+                propertyBlock.SetVector("_P2", P2);
+                propertyBlock.SetVector("_P3", P3);
+                propertyBlock.SetVector("_helpV", helpV);
+                propertyBlock.SetVector("_lightDir", light_dir_local);
+                var mesh_render = obj.GetComponent<MeshRenderer>();
+                mesh_render.SetPropertyBlock(propertyBlock);
 
                 start_index += 3;
             }
+        }
+
+        private void Awake()
+        {
+            addMesh();
         }
 
         public void addLineSegment()

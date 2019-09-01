@@ -77,6 +77,10 @@ namespace Mytool {
         {
             //Debug.Log("OnEnable");
             SceneView.duringSceneGui += OnSceneViewGUI;
+            var be = target as BezierData;
+            be.addMesh();
+            SceneView.RepaintAll();
+            Debug.Log("OnEnable");
         }
 
         void OnDisable()

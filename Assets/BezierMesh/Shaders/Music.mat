@@ -25,7 +25,7 @@ Material:
     - _xScale: 1
     - _yScale: 1
     m_Colors:
-    - _Color: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 0.9150943, g: 0.79835945, b: 0, a: 0}
     - _P0: {r: 0, g: 0, b: 0, a: 0}
     - _P1: {r: 0, g: 0, b: 0, a: 0}
     - _P2: {r: 0, g: 0, b: 0, a: 0}
