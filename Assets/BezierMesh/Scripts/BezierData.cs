@@ -82,7 +82,7 @@ namespace Mytool
                 Handles.DrawBezier(cnPoints_world[start_index],
                cnPoints_world[start_index + 3],
                cnPoints_world[start_index + 1],
-               cnPoints_world[start_index + 2], Color.red, null, 2f);
+               cnPoints_world[start_index + 2], Color.yellow, null, 2f);
 
                 start_index += 3;
             }
