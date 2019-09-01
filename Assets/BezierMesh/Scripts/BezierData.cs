@@ -10,10 +10,10 @@ namespace Mytool
         public bool isEditMode = false;
         public GameObject prefab;
         public Transform place_holder;
+        public int lineSegmentIndex;
 
         void OnValidate()
         {
-            Debug.Log("OnValidate");
             updateMaterialProperty();
         }
 
