@@ -11,10 +11,38 @@ namespace Mytool
         public GameObject prefab;
         public Transform place_holder;
 
-        public static void updateAllBezierMesh() {
-            var objs =FindObjectsOfType<BezierData>();
-            foreach (var obj in objs)
-                obj.addMesh();
+        void OnValidate()
+        {
+            Debug.Log("OnValidate");
+            updateMaterialProperty();
+        }
+
+        public void updateMaterialProperty() {
+            var bezier_count = cnPoints.Count / 3 - 1;
+            var start_index = 1;
+            var light_dir_world = new Vector3(0, 1, 0);
+            var light_dir_local = transform.InverseTransformVector(light_dir_world);
+            for (var i = 0; i < bezier_count; ++i)
+            {
+                Vector3 P0 = cnPoints[start_index];
+                Vector3 P1 = cnPoints[start_index + 1];
+                Vector3 P2 = cnPoints[start_index + 2];
+                Vector3 P3 = cnPoints[start_index + 3];
+                var helpV = BezierCurve.getBestHelpV(ref P0, ref P1, ref P2, ref P3);
+
+                var propertyBlock = new MaterialPropertyBlock();
+                propertyBlock.SetVector("_P0", P0);
+                propertyBlock.SetVector("_P1", P1);
+                propertyBlock.SetVector("_P2", P2);
+                propertyBlock.SetVector("_P3", P3);
+                propertyBlock.SetVector("_helpV", helpV);
+                propertyBlock.SetVector("_lightDir", light_dir_local);
+                var obj = place_holder.GetChild(i).gameObject;
+                var mesh_render = obj.GetComponent<MeshRenderer>();
+                mesh_render.SetPropertyBlock(propertyBlock);
+
+                start_index += 3;
+            }
         }
 
         public void addMesh()
@@ -26,36 +54,10 @@ namespace Mytool
 
             // 生成
             var bezier_count = cnPoints.Count / 3 - 1;
-            var start_index = 1;
-            var light_dir_world = new Vector3(0, 1, 0);
-            var light_dir_local = transform.InverseTransformVector(light_dir_world);
             for (var i = 0; i < bezier_count; ++i)
-            {
-                Vector3 P0 = cnPoints[start_index];
-                Vector3 P1 =cnPoints[start_index + 1];
-                Vector3 P2 =cnPoints[start_index + 2];
-                Vector3 P3 =cnPoints[start_index + 3];
-                var helpV = BezierCurve.getBestHelpV(ref P0, ref P1, ref P2, ref P3);
+                GameObject.Instantiate<GameObject>(prefab, transform.position, transform.rotation, place_holder);
 
-                var obj = GameObject.Instantiate<GameObject>(prefab, transform.position, transform.rotation, place_holder);
-                
-                var propertyBlock = new MaterialPropertyBlock();
-                propertyBlock.SetVector("_P0", P0);
-                propertyBlock.SetVector("_P1", P1);
-                propertyBlock.SetVector("_P2", P2);
-                propertyBlock.SetVector("_P3", P3);
-                propertyBlock.SetVector("_helpV", helpV);
-                propertyBlock.SetVector("_lightDir", light_dir_local);
-                var mesh_render = obj.GetComponent<MeshRenderer>();
-                mesh_render.SetPropertyBlock(propertyBlock);
-
-                start_index += 3;
-            }
-        }
-
-        private void Awake()
-        {
-            addMesh();
+            updateMaterialProperty();
         }
 
         public void addLineSegment()
