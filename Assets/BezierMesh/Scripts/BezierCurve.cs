@@ -14,6 +14,13 @@ namespace Mytool
 
         void OnDrawGizmos()
         {
+            var data = this.GetComponent<BezierData>();
+            this.points = new Vector3[4];
+            this.points[0] = data.cnPoints[1];
+            this.points[1] = data.cnPoints[2];
+            this.points[2] = data.cnPoints[3];
+            this.points[3] = data.cnPoints[4];
+
             var t = this.transform;
 
             // to world
