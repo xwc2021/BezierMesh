@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -441,7 +441,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &765339918
 Transform:
   m_ObjectHideFlags: 0
@@ -474,7 +474,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: eb43dc0333233ec46be6faa114fed0c8, type: 2}
+  - {fileID: 2100000, guid: b18c57da727ac7b4a89ebf88864d3dc3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1073,7 +1073,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1512393101
 Transform:
   m_ObjectHideFlags: 0
@@ -1106,7 +1106,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: eb43dc0333233ec46be6faa114fed0c8, type: 2}
+  - {fileID: 2100000, guid: b18c57da727ac7b4a89ebf88864d3dc3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1166,9 +1166,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cnPoints:
-  - {x: -5.525322, y: 0.38769555, z: -1.7645855}
-  - {x: -0.9382515, y: -1.9229517, z: -1.0282383}
-  - {x: 2.1463604, y: -3.4767647, z: -0.53307533}
+  - {x: -6.5775948, y: 5.0717587, z: -4.094095}
+  - {x: -4.811983, y: 8.317386, z: 0.10081482}
+  - {x: -3.5132942, y: 10.704681, z: 3.1863651}
   - {x: 1.6085877, y: 3.0618415, z: -1.4780974}
   - {x: 4.051383, y: 2.2930036, z: 1.1571121}
   - {x: 6.5189104, y: 1.514822, z: 3.8179638}
@@ -1213,8 +1213,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points:
-  - {x: -0.9382515, y: -1.9229517, z: -1.0282383}
-  - {x: 2.1463604, y: -3.4767647, z: -0.53307533}
+  - {x: -4.811983, y: 8.317386, z: 0.10081482}
+  - {x: -3.5132942, y: 10.704681, z: 3.1863651}
   - {x: 1.6085877, y: 3.0618415, z: -1.4780974}
   - {x: 4.051383, y: 2.2930036, z: 1.1571121}
   tangent_count: 20
@@ -1503,7 +1503,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1911965812
 Transform:
   m_ObjectHideFlags: 0
@@ -1536,7 +1536,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: eb43dc0333233ec46be6faa114fed0c8, type: 2}
+  - {fileID: 2100000, guid: b18c57da727ac7b4a89ebf88864d3dc3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1615,7 +1615,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: eb43dc0333233ec46be6faa114fed0c8, type: 2}
+  - {fileID: 2100000, guid: b18c57da727ac7b4a89ebf88864d3dc3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
